@@ -20,7 +20,7 @@ class App extends Component {
   }
 
   topic = () => {
-    let { topicId } = useParams();
+    let { title } = useParams();
     return (
       <div>
         <section>
@@ -39,7 +39,7 @@ class App extends Component {
       <div>
         <h2>Topics</h2>
         <Switch>
-          <Route path={`${match.path}/:topicId`}>
+          <Route path={`${match.path}/:title`}>
             <this.topic />
           </Route>
           <Route path={match.path}>
