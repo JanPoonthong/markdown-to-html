@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { marked } from "marked";
+import { readme } from "./components/blogs/readme";
 
-function App() {
+
+class App extends Component {
+  state = { markdown: "" };
+  
+  componentDidMount() {
+    this.setState({
+      markdown: marked.parse(readme),
+    });
+  }
+
+  render() {
+    return (
+      <div>
+      <section>
+        <article
+          dangerouslySetInnerHTML={{ __html: this.state.markdown }}
+        ></article>
+      </section>
+      </div>
+    );
+  }
+}
+
+function Home() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>Home</h2>
     </div>
   );
 }
+
 
 export default App;
