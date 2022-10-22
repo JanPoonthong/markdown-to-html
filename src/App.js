@@ -8,19 +8,28 @@ import {
   useParams,
 } from "react-router-dom";
 import { marked } from "marked";
-import { readme } from "./components/blogs/readme";
+import { allBlog } from "./components/blogs/";
 
 class App extends Component {
   state = { markdown: "" };
 
-  componentDidMount() {
-    this.setState({
-      markdown: marked.parse(readme),
-    });
-  }
+  page404 = () => {
+    return (
+      <div>
+        <h1>Error: 404</h1>
+      </div>
+    );
+  };
 
   topic = () => {
     let { title } = useParams();
+    console.log(allBlog);
+    if (!allBlog[title]) return this.page404();
+
+    this.setState({
+      markdown: marked.parse(allBlog[title]),
+    });
+
     return (
       <div>
         <section>
