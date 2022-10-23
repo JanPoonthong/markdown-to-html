@@ -8,19 +8,32 @@ import {
   useParams,
 } from "react-router-dom";
 import { marked } from "marked";
-import { readme } from "./components/blogs/readme";
+import * as allBlogs from "./components/blogs/";
+
 
 class App extends Component {
-  state = { markdown: "" };
+  state = { title: null, markdown: null };
 
-  componentDidMount() {
-    this.setState({
-      markdown: marked.parse(readme),
-    });
-  }
+  page404 = () => {
+    return (
+      <div>
+        <h1>Error: 404</h1>
+      </div>
+    );
+  };
 
   topic = () => {
     let { title } = useParams();
+    
+    if (!allBlogs[title]) return this.page404();
+
+    if(!this.state.markdown){
+    this.setState({
+      title: title.replace('-', ' '),
+      markdown: marked.parse(allBlogs[title]),
+    });
+    }
+
     return (
       <div>
         <section>
@@ -37,13 +50,16 @@ class App extends Component {
 
     return (
       <div>
-        <h2>Topics</h2>
+        <h1>
+        { this.state.title}
+
+        </h1>
         <Switch>
           <Route path={`${match.path}/:title`}>
             <this.topic />
           </Route>
           <Route path={match.path}>
-            <h3>Please select a topic.</h3>
+            <h3>Please select a blog.</h3>
           </Route>
         </Switch>
       </div>
@@ -58,12 +74,12 @@ class App extends Component {
             <nav>
               <ul>
                 <li>
-                  <Link to="/topics">Topics</Link>
+                  <Link to="/blogs">Blogs</Link>
                 </li>
               </ul>
             </nav>
             <Switch>
-              <Route path="/topics">
+              <Route path="/blogs">
                 <this.topics />
               </Route>
             </Switch>

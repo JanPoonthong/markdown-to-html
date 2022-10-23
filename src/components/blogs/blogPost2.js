@@ -1,7 +1,5 @@
-export const readme = `
-# this is a title
-content  content content content content content content content content 
-
+export const blogPost2 = `
+First blogPost2
 ## New title
 content content content content content 
 
@@ -9,4 +7,5 @@ content content content content content
 - item 1
 - teim 2
 - item 3
-`
+
+`;
