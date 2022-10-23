@@ -10,8 +10,9 @@ import {
 import { marked } from "marked";
 import * as allBlogs from "./components/blogs/";
 
+
 class App extends Component {
-  state = { markdown: "" };
+  state = { title: null, markdown: null };
 
   page404 = () => {
     return (
@@ -23,12 +24,17 @@ class App extends Component {
 
   topic = () => {
     let { title } = useParams();
-    console.log(allBlogs.blogPost1);
-    if (allBlogs.blogPost1.title !== title) return this.page404();
+    
+    console.log("allBlogs: %s", allBlogs)
 
-    // this.setState({
-    //   markdown: marked.parse(allBlogs.blogPost1.description),
-    // });
+    if (!allBlogs[title]) return this.page404();
+
+    if(!this.state.markdown){
+    this.setState({
+      title: title.replace('-', ' '),
+      markdown: marked.parse(allBlogs[title]),
+    });
+    }
 
     return (
       <div>
@@ -46,7 +52,10 @@ class App extends Component {
 
     return (
       <div>
-        <h2>Blogs</h2>
+        <h1>
+        { this.state.title}
+
+        </h1>
         <Switch>
           <Route path={`${match.path}/:title`}>
             <this.topic />
