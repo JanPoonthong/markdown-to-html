@@ -25,8 +25,6 @@ class App extends Component {
   topic = () => {
     let { title } = useParams();
     
-    console.log("allBlogs: %s", allBlogs)
-
     if (!allBlogs[title]) return this.page404();
 
     if(!this.state.markdown){
