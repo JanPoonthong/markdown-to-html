@@ -1,5 +1,6 @@
-export const blogPost1 = `
-# this is a title
+export const title = `# Ardaria`;
+
+export const description = `
 content  content content content content content content content content 
 
 ## New title

@@ -23,7 +23,7 @@ class App extends Component {
 
   topic = () => {
     let { title } = useParams();
-    console.log(blogPost1);
+    // console.log(blogPost1);
     if (!blogPost1[title]) return this.page404();
 
     this.setState({
