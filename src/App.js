@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,60 +12,6 @@ import * as allBlogs from "./components/blogs/";
 
 
 class App extends Component {
-  state = { title: null, markdown: null };
-
-  page404 = () => {
-    return (
-      <div>
-        <h1>Error: 404</h1>
-      </div>
-    );
-  };
-
-  topic = () => {
-    let { title } = useParams();
-    
-    if (!allBlogs[title]) return this.page404();
-
-    if(!this.state.markdown){
-    this.setState({
-      title: title.replace('-', ' '),
-      markdown: marked.parse(allBlogs[title]),
-    });
-    }
-
-    return (
-      <div>
-        <section>
-          <article
-            dangerouslySetInnerHTML={{ __html: this.state.markdown }}
-          ></article>
-        </section>
-      </div>
-    );
-  };
-
-  topics = () => {
-    let match = useRouteMatch();
-
-    return (
-      <div>
-        <h1>
-        { this.state.title}
-
-        </h1>
-        <Switch>
-          <Route path={`${match.path}/:title`}>
-            <this.topic />
-          </Route>
-          <Route path={match.path}>
-            <h3>Please select a blog.</h3>
-          </Route>
-        </Switch>
-      </div>
-    );
-  };
-
   render() {
     return (
       <div>
@@ -80,7 +26,7 @@ class App extends Component {
             </nav>
             <Switch>
               <Route path="/blogs">
-                <this.topics />
+                <Blogs />
               </Route>
             </Switch>
           </div>
@@ -89,5 +35,61 @@ class App extends Component {
     );
   }
 }
+
+function Page404() {
+  return (
+    <div>
+      <h1>Error: 404</h1>
+    </div>
+  );
+};
+
+
+function Blog() {
+  const [titleParam, setTitleParam] = useState(null);
+  const [markdown, setMarkdown] = useState(null);
+
+
+  let { title } = useParams();
+
+  if (!allBlogs[title]) return Page404();
+
+  if (!markdown) {
+    setTitleParam(title.replace('-', ' '));
+    setMarkdown(marked.parse(allBlogs[title]));
+  }
+
+  return (
+    <div>
+      <section>
+        <article
+          dangerouslySetInnerHTML={{ __html: markdown }}
+        ></article>
+      </section>
+    </div>
+  );
+};
+
+function Blogs(props) {
+  let match = useRouteMatch();
+
+  return (
+    <div>
+      <h1>
+        {props.titleParam}
+
+      </h1>
+      <Switch>
+        <Route path={`${match.path}/:title`}>
+          <Blog />
+        </Route>
+        <Route path={match.path}>
+          <h3>Please select a blog.</h3>
+        </Route>
+      </Switch>
+    </div>
+  );
+};
+
 
 export default App;
