@@ -8,7 +8,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { marked } from "marked";
-import { blogPost1, blogPost2 } from "./components/blogs/";
+import * as allBlogs from "./components/blogs/";
 
 class App extends Component {
   state = { markdown: "" };
@@ -23,12 +23,12 @@ class App extends Component {
 
   topic = () => {
     let { title } = useParams();
-    // console.log(blogPost1);
-    if (!blogPost1[title]) return this.page404();
+    console.log(allBlogs.blogPost1);
+    if (allBlogs.blogPost1.title !== title) return this.page404();
 
-    this.setState({
-      markdown: marked.parse(blogPost1[title]),
-    });
+    // this.setState({
+    //   markdown: marked.parse(allBlogs.blogPost1.description),
+    // });
 
     return (
       <div>
@@ -46,13 +46,13 @@ class App extends Component {
 
     return (
       <div>
-        <h2>Topics</h2>
+        <h2>Blogs</h2>
         <Switch>
           <Route path={`${match.path}/:title`}>
             <this.topic />
           </Route>
           <Route path={match.path}>
-            <h3>Please select a topic.</h3>
+            <h3>Please select a blog.</h3>
           </Route>
         </Switch>
       </div>
@@ -67,12 +67,12 @@ class App extends Component {
             <nav>
               <ul>
                 <li>
-                  <Link to="/topics">Topics</Link>
+                  <Link to="/blogs">Blogs</Link>
                 </li>
               </ul>
             </nav>
             <Switch>
-              <Route path="/topics">
+              <Route path="/blogs">
                 <this.topics />
               </Route>
             </Switch>
