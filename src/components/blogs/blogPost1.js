@@ -1,5 +1,5 @@
 export const blogPost1 = `
-First blogPost1
+# First blogPost1
 ## New title
 content content content content content 
 
